@@ -1,0 +1,54 @@
+Notes on edits:
+
+LETTERS - removed the following:
+1. all intro stuff - contents, introduction, editor's note
+2. editor's notes from the beginning of each collection of letters (there are a few of these in each letters volume).
+3. Appendix at back
+4. index at back
+5. have tried to delete all letter sources: hatfield/berg/texas/Quentin Bell/sussex etc.
+but may have missed some and some are notes inside the letters for citation purposes. I mostly missed these.
+
+-note: have left letter no.s and addresses
+- I also left letter types (typewritten, handwritten etc.)
+
+
+ESSAYS:
+removed:
+1. Appendices, bibliography, index (end)
+to remove:
+running headers, footnotes
+- kept essay titles in
+
+DIARIES: 
+removed:
+1. any intro
+2. Appendices (end)
+3. Abbreviations (end)
+4.  headings for each group of years
+5. footnotes - search "#."
+6. intros to each year (a para at beginning)
+
+
+Fiction:
+removed:
+1. intro and notes
+2. any end bits: appendices, notes, abbreviations 
+nb. Deleted preface from Orlando, appendix from Shorter fiction
+3. all running page numbers and titles. May have missed occasional footnotes 
+NB: have not deleted new chapter titles (at beginning of chapter)
+- have not touched the shorter fiction
+
+NB: Three Guineas. all notes deleted, even VW's notes (these begin on page 171 and the general editor's notes begin on 223 to end)
+
+Other:
+No edits
+
+
+GENERAL OBSERVATIONS:
+- lots of i in place of 1
+- lots of 6k? - think this is OCR interpretation of &
+- note: I did NOT get rid of foot note markers that appear in mid text
+- also there are some comments in parentheses like "see VW's essays v2" etc. which I did not take out
+- common number confusions: j (5?) and z(2)
+- most/maybe all diary entries have locations assoc.'d
+- 'die' in place of 'the'

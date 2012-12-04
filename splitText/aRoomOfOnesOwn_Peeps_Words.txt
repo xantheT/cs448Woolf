@@ -1,0 +1,1 @@
+['it', 'i', 'her', 'she', 'they', 'my', 'you', 'their', 'them', 'he', 'we', 'his', 'me', 'its', 'our', 'him', 'us', 'your', 'itself', 'herself', 'myself', 'themselves', 'himself', 'yourselves', ]
