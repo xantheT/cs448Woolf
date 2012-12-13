@@ -21,44 +21,31 @@ bigStopList = ['i','me','my','myself','we','us','our','ours','ourselves','you','
 #nb. Alice's suggestion, remove 'I', 'we', 'he', 'him',she', 'her', - instead, maybe make a separate viz for these
 personList = ['i','me','my','myself','we','us','our','ours','ourselves','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','they','them','their','theirs','themselves']
 
-def constructArrays(inFile, stopList, wordMap, count):
+
+
+def constructDoubleArrays(inFile, stopList, wordMap, count):
+	lastWord = ""
+	currWord = ""
+	combinedWord = ""
 	for line in inFile:
 		tokens = line.split(' ')   #get each word
 		for i in range(0,len(tokens)):  #for each word
 			strippedToken = tokens[i].strip().lower()
 			strippedToken = re.sub(r'[^a-z]', '', strippedToken)
-			if (strippedToken !=  ''):
-				count +=1
-			if ((strippedToken !=  '') and (strippedToken not in stopList) ):
-				if strippedToken in wordMap:
-					wordMap[strippedToken] += 1
+			currWord = strippedToken
+			combinedWord = lastWord+" "+currWord
+			if ((currWord !=  '') and (lastWord !=  '')):
+				count +=1 																# 'and' for pairEx (ie, no words in stoplist) but could use 'or' to allow at most one stoplist word in word pair
+			if ((currWord !=  '') and (lastWord !=  '') and ((currWord not in stopList) and (lastWord not in stopList)) ): #not rubbish, and not both in stop list
+				if combinedWord in wordMap:
+					wordMap[combinedWord] += 1
 				else:
-					wordMap[strippedToken] = 1
+					wordMap[combinedWord] = 1
+			lastWord = currWord
 	return {'wordMap': wordMap, 'count':count}
 
-def makePersonMap(inFile, keepList, wordMap):
-	for line in inFile:
-		tokens = line.split(' ')   #get each word
-		for i in range(0,len(tokens)):  #for each word
-			strippedToken = tokens[i].strip().lower()
-			strippedToken = re.sub(r'[^a-z]', '', strippedToken)
-			if ((strippedToken !=  '') and (strippedToken in keepList) ):
-				if strippedToken in wordMap:
-					wordMap[strippedToken] += 1
-				else:
-					wordMap[strippedToken] = 1
-	return wordMap
-		
 
-def removeInsignificantWords(wordMap, threshold):
-	toDel = []
-	newMap = wordMap
-	for key in wordMap:
-		if wordMap[key] < threshold:
-			toDel.append(key)
-	for i in toDel:
-		del newMap[i]
-	return newMap
+
 
 def sortList(wordMap):
 	sortedList = sorted(wordMap.iteritems(), key=operator.itemgetter(1), reverse=True)
@@ -70,21 +57,16 @@ def normalizeOverFile(wordMap, count):
 	print sum(wordMap.itervalues())
 	normMap = {}
 	for key in wordMap:
-		normMap[key] = (wordMap[key] / total)*10000
+		normMap[key] = (wordMap[key] / total)*100000
 	return normMap
 
-def getLog(wordMap):
-	logMap = {}
-	for key in wordMap:
-		logMap[key] = math.log(1+ wordMap[key])
-	return logMap
 
 
 
-def writeListToFiles(writeFileWords, writeFileCount, slist, maxNum):
+def writeListToFiles(writeFileWords, writeFileCount, slist, count):
 	writeFileWords.write('[')
 	writeFileCount.write('[')
-	for i in range(0,maxNum):
+	for i in range(0,count):
 		writeFileWords.write("'")
 		writeFileCount.write("'")
 
@@ -101,43 +83,48 @@ def writeListToFiles(writeFileWords, writeFileCount, slist, maxNum):
 
 
 #======== execution of Program ==========
-
-#Constructs a basic frequency stuff and exports to files
-info = constructArrays(inFile, bigStopList, wordMap, count)
-# outfileWords = open("./splitText/jacobsRoom/jacobsRoom_Words.txt", "w")
-# outfileCount = open("./splitText/jacobsRoom/jacobsRoom_Count.txt", "w")
-# sortedList = sortList(info['wordMap'])
-# writeListToFiles(outfileWords, outfileCount, sortedList, MAX)
+info = constructDoubleArrays(inFile, bigStopList, wordMap, count)
+#outfileWords = open("./splitText/jacobsRoom/jacobsRoom_double_Words.txt", "w")
+#outfileCount = open("./splitText/jacobsRoom/jacobsRoom_double_Count.txt", "w")
+#sortedList = sortList(info['wordMap'])
+#writeListToFiles(outfileWords, outfileCount, sortedList, MAX)
 
 
 #Constructs a normalized frequency and exports to files
-outfileNormWords = open("./splitText/essaysV5/essaysV5_Norm_Words.txt", "w")
-outfileNormCount = open("./splitText/essaysV5/essaysV5_Norm_Count.txt", "w")
+outfileNormWords = open("./splitText/essaysV5/essaysV5_double_Norm_Words.txt", "w")
+outfileNormCount = open("./splitText/essaysV5/essaysV5_double_Norm_Count.txt", "w")
 normMap = normalizeOverFile(info['wordMap'], info['count'])
 sortedNorms = sortList(normMap)
 writeListToFiles(outfileNormWords, outfileNormCount, sortedNorms,MAX)
 
 
 
-#DONT USE LOGS - not enough to make it interesting
-#Constructs a log frequency and exports to file
+
+
+
+
+
+# #Constructs a basic frequency stuff and exports to files
+# wordMap = constructArrays(inFile, bigStopList, wordMap)
+# outfileWords = open("./splitText/jacobsRoom/jacobsRoom_Words.txt", "w")
+# outfileCount = open("./splitText/jacobsRoom/jacobsRoom_Count.txt", "w")
+# sortedList = sortList(wordMap)
+# writeListToFiles(outfileWords, outfileCount, sortedList, MAX)
+
+
+# #Constructs a normalized frequency and exports to files
+# outfileNormWords = open("./splitText/jacobsRoom/jacobsRoom_Norm_Words.txt", "w")
+# outfileNormCount = open("./splitText/jacobsRoom/jacobsRoom_Norm_Count.txt", "w")
+# normMap = normalizeOverFile(wordMap)
+# sortedNorms = sortList(normMap)
+# writeListToFiles(outfileNormWords, outfileNormCount, sortedNorms,MAX)
+
+# #Constructs a log frequency and exports to file
 # outfileLogWords = open("./splitText/jacobsRoom/jacobsRoom_Log_Words.txt", "w")
 # outfileLogCount = open("./splitText/jacobsRoom/jacobsRoom_Log_Count.txt", "w")
 # logsMap = getLog(wordMap)
 # sortedLogs = sortList(logsMap)
 # writeListToFiles(outfileLogWords, outfileLogCount, sortedLogs, MAX)
-
-
-
-#make the pronoun list
-# inFile.close()
-# inFile =open("./editedTXTFiles/fiction/aRoomOfOnesOwn.txt","r")
-# outfilePeepsWords = open("./splitText/aRoomOfOnesOwn_Peeps_Words.txt", "w")
-# outfilePeepsCount = open("./splitText/aRoomOfOnesOwn_Peeps_Count.txt", "w")
-# personMap = {}
-# personMap = makePersonMap(inFile, personList, personMap)
-# sortedPeepsList = sortList(personMap)
-# writeListToFiles(outfilePeepsWords, outfilePeepsCount, sortedPeepsList, len(sortedPeepsList)-1)
 
 
 
